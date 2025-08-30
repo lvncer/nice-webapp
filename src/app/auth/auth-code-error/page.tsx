@@ -11,6 +11,7 @@ export default function AuthCodeError() {
             stroke="currentColor"
             viewBox="0 0 24 24"
             aria-label="エラーアイコン"
+            role="img"
           >
             <path
               strokeLinecap="round"

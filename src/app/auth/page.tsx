@@ -1,8 +1,8 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
-import { useRouter } from "next/navigation";
 
 export default function AuthPage() {
   const [email, setEmail] = useState("");
@@ -37,8 +37,10 @@ export default function AuthPage() {
         if (error) throw error;
         router.push("/");
       }
-    } catch (error: any) {
-      setMessage(error.message);
+    } catch (error: unknown) {
+      setMessage(
+        error instanceof Error ? error.message : "エラーが発生しました",
+      );
     }
     setLoading(false);
   };
@@ -74,11 +76,17 @@ export default function AuthPage() {
         {/* OAuth ボタン */}
         <div className="space-y-3 mb-6">
           <button
+            type="button"
             onClick={() => handleOAuthLogin("google")}
             disabled={loading}
             className="w-full flex items-center justify-center px-4 py-3 border border-gray-300 rounded-lg shadow-sm bg-white text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
-            <svg className="w-5 h-5 mr-3" viewBox="0 0 24 24">
+            <svg
+              className="w-5 h-5 mr-3"
+              viewBox="0 0 24 24"
+              aria-label="Googleアイコン"
+              role="img"
+            >
               <path
                 fill="#4285F4"
                 d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -98,8 +106,6 @@ export default function AuthPage() {
             </svg>
             Googleでログイン
           </button>
-
-
         </div>
 
         <div className="relative mb-6">
@@ -172,6 +178,7 @@ export default function AuthPage() {
 
         <div className="mt-6 text-center">
           <button
+            type="button"
             onClick={() => setIsSignUp(!isSignUp)}
             className="text-indigo-600 hover:text-indigo-500 text-sm font-medium"
           >
@@ -183,6 +190,7 @@ export default function AuthPage() {
 
         <div className="mt-4 text-center">
           <button
+            type="button"
             onClick={() => router.push("/")}
             className="text-gray-500 hover:text-gray-700 text-sm"
           >

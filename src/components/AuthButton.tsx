@@ -12,6 +12,7 @@ export default function AuthButton() {
         stroke="currentColor"
         viewBox="0 0 24 24"
         aria-label="ログインアイコン"
+        role="img"
       >
         <path
           strokeLinecap="round"

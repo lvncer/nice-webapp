@@ -8,6 +8,10 @@
     "start": "next start",
     "lint": "biome check",
     "format": "biome format --write",
+    "test": "bun test src/tests/unit/",
+    "test:integration": "bun test src/tests/integration/",
+    "test:e2e": "bun test src/tests/e2e/",
+    "test:all": "bun test src/tests/",
     "prepare": "husky"
   },
   "dependencies": {
