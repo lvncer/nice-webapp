@@ -4,7 +4,7 @@ Next.js 15 と Supabase を使用した認証システムを実装したアプ�
 
 ## 🚀 機能
 
-- ✅ OAuth 認証（Google、GitHub、X/Twitter）
+- ✅ OAuth 認証（Google）
 - ✅ メール認証（登録・ログイン）
 - ✅ セッション管理
 - ✅ レスポンシブデザイン
@@ -16,7 +16,7 @@ Next.js 15 と Supabase を使用した認証システムを実装したアプ�
 - **Authentication**: Supabase Auth
 - **Styling**: Tailwind CSS
 - **Language**: TypeScript
-- **Runtime**: Node.js
+- **Runtime**: Bun
 
 ## ⚙️ セットアップ
 
