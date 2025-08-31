@@ -42,7 +42,9 @@ next-env.d.ts
 
 # custom prompt files
 .cursorrules
-.cursor/
+.cursor/mcp.json
+.cursor/rules/
+.cursor/commands/
 .windsurfrules
 .windsurf/
 .claude/
