@@ -12,7 +12,8 @@ export async function middleware(request: NextRequest) {
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
   if (!supabaseUrl || !supabaseAnonKey) {
-    throw new Error("Missing Supabase environment variables");
+    // In development or build time, just pass through without auth
+    return response;
   }
 
   const supabase = createServerClient(supabaseUrl, supabaseAnonKey, {

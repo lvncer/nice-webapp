@@ -2,6 +2,9 @@ import AuthButton from "@/components/AuthButton";
 import UserInfo from "@/components/UserInfo";
 import { createClient } from "@/lib/supabase/server";
 
+// Force dynamic rendering for home page due to auth
+export const dynamic = "force-dynamic";
+
 export default async function Home() {
   const supabase = await createClient();
   const {
