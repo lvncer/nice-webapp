@@ -18,8 +18,17 @@ const mockRouter = {
   replace: () => {},
   back: () => {},
   forward: () => {},
-  refresh: () => {},
-  prefetch: () => Promise.resolve(),
+  refresh: () => Promise.resolve(),
 };
 
-globalThis.__NEXT_ROUTER__ = mockRouter;
+// Type augmentation for globalThis
+declare global {
+  var __NEXT_ROUTER__: typeof mockRouter;
+}
+
+(
+  globalThis as typeof globalThis & { __NEXT_ROUTER__: typeof mockRouter }
+).__NEXT_ROUTER__ = mockRouter;
+
+// This export makes this file a module, enabling global declarations
+export {};
