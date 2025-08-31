@@ -1,7 +1,8 @@
 "use client";
 
+import type { SupabaseClient } from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 
 // Force dynamic rendering for auth page
@@ -13,11 +14,18 @@ export default function AuthPage() {
   const [isSignUp, setIsSignUp] = useState(false);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+  const [supabase, setSupabase] = useState<SupabaseClient | null>(null);
   const router = useRouter();
-  const supabase = createClient();
+
+  useEffect(() => {
+    // Initialize Supabase client on the client side only
+    setSupabase(createClient());
+  }, []);
 
   const handleEmailAuth = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!supabase) return;
+
     setLoading(true);
     setMessage("");
 
@@ -49,6 +57,8 @@ export default function AuthPage() {
   };
 
   const handleOAuthLogin = async (provider: "google") => {
+    if (!supabase) return;
+
     setLoading(true);
     const { error } = await supabase.auth.signInWithOAuth({
       provider,
@@ -81,7 +91,7 @@ export default function AuthPage() {
           <button
             type="button"
             onClick={() => handleOAuthLogin("google")}
-            disabled={loading}
+            disabled={loading || !supabase}
             className="w-full flex items-center justify-center px-4 py-3 border border-gray-300 rounded-lg shadow-sm bg-white text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
             <svg
@@ -160,10 +170,16 @@ export default function AuthPage() {
 
           <button
             type="submit"
-            disabled={loading}
+            disabled={loading || !supabase}
             className="w-full bg-indigo-600 text-white py-2 px-4 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
-            {loading ? "処理中..." : isSignUp ? "アカウント作成" : "ログイン"}
+            {!supabase
+              ? "初期化中..."
+              : loading
+                ? "処理中..."
+                : isSignUp
+                  ? "アカウント作成"
+                  : "ログイン"}
           </button>
         </form>
 

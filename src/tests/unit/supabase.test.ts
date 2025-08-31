@@ -16,7 +16,7 @@ describe("Supabase Client", () => {
     expect(() => createClient()).not.toThrow();
   });
 
-  it("should throw error when environment variables are missing", async () => {
+  it("should return mock client when environment variables are missing in server environment", async () => {
     // Temporarily remove env vars
     const originalUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
     const originalKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -26,9 +26,10 @@ describe("Supabase Client", () => {
 
     const { createClient } = await import("../../lib/supabase/client");
 
-    expect(() => createClient()).toThrow(
-      "Missing Supabase environment variables",
-    );
+    const client = createClient();
+    expect(client).toBeDefined();
+    expect(client.auth).toBeDefined();
+    expect(typeof client.auth.getUser).toBe("function");
 
     // Restore env vars
     process.env.NEXT_PUBLIC_SUPABASE_URL = originalUrl;
