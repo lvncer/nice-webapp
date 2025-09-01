@@ -40,7 +40,7 @@ jobs:
           echo "title=${{ github.event.pull_request.title }}" >> $GITHUB_OUTPUT
           echo "labels=${{ join(github.event.pull_request.labels.*.name, ' ') }}" >> $GITHUB_OUTPUT
 
-      - name: Auto-approve and merge minor/patch updates
+      - name: Auto-merge minor/patch updates
         if: |
           contains(steps.pr-info.outputs.title, 'chore(deps)') &&
           (contains(steps.pr-info.outputs.title, 'bump') ||
@@ -48,5 +48,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh pr review --approve "${{ github.event.pull_request.number }}"
           gh pr merge --auto --squash "${{ github.event.pull_request.number }}"
